@@ -1,4 +1,4 @@
-# Flip 7 – Scores
+# Flip 7 – Gestion des scores (version multilingue FR,EN,ES,DE)
 
 Application web pour compter les scores du jeu de cartes **Flip 7**, en version classique et en version **Vengeance**. Elle tient dans **un seul fichier HTML** (HTML + CSS + JavaScript, sans dépendance ni étape de build) et est pensée pour être utilisée sur smartphone, mais elle fonctionne aussi sur PC.
 
@@ -41,11 +41,9 @@ Ou directement depuis ce dépôt : [https://xiigle.github.io/flip7_scoring/](htt
 Les cartes Action (Échange, Vol, Défausse…) n'ont pas de valeur en points : il suffit de sélectionner les cartes que le joueur possède réellement à la fin de la manche. En mode sans pitié, un Flip 7 permet de faire perdre les 15 points à un adversaire : saisissez alors −15 sur son score.
 
 ## Données et hors ligne
-
 - Les données (joueurs enregistrés, partie en cours, langue, réglages) sont stockées dans le `localStorage` du navigateur, sous la clé `f7`. Rien n'est envoyé sur un serveur.
 - Pour tout réinitialiser, videz les données du site dans les réglages du navigateur.
 - La police **Barlow Condensed** est chargée depuis Google Fonts : sans connexion lors de la première visite, l'application reste utilisable avec la police système par défaut. Pour un usage totalement hors ligne, téléchargez la police et remplacez le `<link>` Google Fonts par des déclarations `@font-face` locales.
 
 ## Personnalisation
-
 Les textes se trouvent dans l'objet `T` au début du script : pour ajouter une langue, copiez un bloc existant (`fr`, `en`, `es`, `de`) et traduisez les valeurs. Les couleurs du thème sont définies dans les variables CSS de `:root`.
