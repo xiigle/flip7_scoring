@@ -61,6 +61,8 @@ th{font-size:.9rem}td button{border:0;background:none;font-size:1.1rem}
 .cd small{font-size:.6em;margin-left:1px}.hn{font-size:.95rem;font-weight:700;color:var(--r)}
 .vb{flex:1;font:800 1.3rem 'Barlow Condensed',system-ui,sans-serif;text-transform:uppercase;border:3px solid var(--n);border-radius:12px;background:#fff;color:var(--n);padding:10px 4px}
 .vb.on{background:var(--r);color:#fff;box-shadow:0 4px 0 var(--n)}
+html.lock,html.lock body{overflow:hidden}
+#modal{overscroll-behavior:contain;touch-action:none}.box{touch-action:pan-y;overscroll-behavior:contain}
 </style></head><body><div id="app"></div><div id="modal"></div>
 <script>
 const T={
@@ -75,9 +77,9 @@ try{Object.assign(S,JSON.parse(localStorage.getItem('f7')))}catch(e){}
 if(!T[S.lang])S.lang='en';
 const t=(k,v)=>(T[S.lang][k]||T.en[k]||k).replace('%s',v),save=()=>{try{localStorage.setItem('f7',JSON.stringify(S))}catch(e){}};
 const tot=g=>g.players.map((_,i)=>g.rounds.reduce((a,r)=>a+(r[i]||0),0));
-function modal(body,btns){return new Promise(r=>{const m=$('#modal');m.innerHTML=`<div class=box>${body}<div class=btns>${btns.map((b,i)=>`<button class="btn ${b.c||''}" data-i=${i}>${b.l}</button>`).join('')}</div></div>`;m.className='on';
+function modal(body,btns){return new Promise(r=>{const m=$('#modal');m.innerHTML=`<div class=box>${body}<div class=btns>${btns.map((b,i)=>`<button class="btn ${b.c||''}" data-i=${i}>${b.l}</button>`).join('')}</div></div>`;m.className='on';document.documentElement.classList.add('lock');
 m.onclick=e=>{const k=e.target.closest('[data-k]');if(k){KP(k.dataset.k);return}const s=e.target.closest('[data-s]');if(s){const f=m.querySelector(`[data-r="${s.dataset.s}"]`);f.value=f.value[0]=='-'?f.value.slice(1):'-'+f.value;return}
-const b=e.target.closest('[data-i],[data-x]');if(!b)return;m.className='';r(b.dataset.x!==undefined?b.dataset.x:btns[b.dataset.i].v)};
+const b=e.target.closest('[data-i],[data-x]');if(!b)return;m.className='';document.documentElement.classList.remove('lock');r(b.dataset.x!==undefined?b.dataset.x:btns[b.dataset.i].v)};
 m.oninput=e=>{if(e.target.dataset.r!==undefined){let v=e.target.value.replace(/[^\d-]/g,'');v=(S.game.neg&&v[0]=='-'?'-':'')+v.replace(/-/g,'').slice(0,3);e.target.value=v}}})}
 const ask=m=>modal(`<p>${esc(m)}</p>`,[{l:t('cancel'),v:0},{l:t('ok'),v:1,c:'p'}]);
 const head=()=>`<header><div class=logo>FLIP<i>7</i></div><div class=langs>${Object.keys(T).map(l=>`<button class="${l==S.lang?'on':''}" data-a=lang data-v=${l}>${l.toUpperCase()}</button>`).join('')}</div></header>
@@ -136,5 +138,6 @@ document.addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.id=='nn')doc
 document.addEventListener('input',e=>{if(e.target.id=='tg')S.target=parseInt(e.target.value)||200});
 document.addEventListener('contextmenu',e=>{if(e.target.tagName!='INPUT')e.preventDefault()});
 document.addEventListener('selectstart',e=>{if(e.target.tagName!='INPUT')e.preventDefault()});
+$('#modal').addEventListener('touchmove',e=>{if(!e.target.closest('.box'))e.preventDefault()},{passive:false});
 render();
 </script></body></html>
