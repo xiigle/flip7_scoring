@@ -10,12 +10,13 @@ input{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 html,body{margin:0;min-height:100%}
 body{background:radial-gradient(circle at 50% 30%,#d4eeee,var(--t) 70%) fixed;color:var(--n);font:500 19px/1.2 'Barlow Condensed',system-ui,sans-serif;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);user-select:none}
 #app{max-width:560px;margin:0 auto;padding:12px 14px 110px}
-header{display:flex;justify-content:space-between;align-items:center}
+header{display:flex;justify-content:space-between;align-items:center;gap:6px}
 .logo{font:800 3rem/1 'Barlow Condensed',sans-serif;font-style:italic;color:var(--y);-webkit-text-stroke:3px var(--n);paint-order:stroke fill;text-shadow:3px 3px 0 var(--r)}
-.logo i{font-size:3.6rem}
+.logo i{font-size:3.6rem}.logo{white-space:nowrap}.langs button{white-space:nowrap}
+@media(max-width:400px){.logo{font-size:2.4rem}.logo i{font-size:2.9rem}}
 .fan{display:flex;justify-content:center;height:34px;margin:6px 0 0}
 .fan span{width:26px;height:38px;border:3px solid var(--n);border-radius:6px;margin:0 -4px;transform-origin:bottom}
-.langs{display:flex;gap:4px}
+.langs{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
 .langs button{font:700 .9rem 'Barlow Condensed',system-ui,sans-serif;border:2px solid var(--n);background:#fff;color:var(--n);border-radius:8px;padding:4px 7px}
 .langs .on{background:var(--n);color:var(--y)}
 .rib{margin:18px 0 0;background:#fff;border:3px solid var(--n);outline:3px solid var(--t);outline-offset:-7px;padding:6px 16px;font-size:1.25rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;text-align:center;border-radius:4px}
@@ -63,7 +64,7 @@ th{font-size:.9rem}td button{border:0;background:none;font-size:1.1rem}
 .vb.on{background:var(--r);color:#fff;box-shadow:0 4px 0 var(--n)}
 html.lock,html.lock body{overflow:hidden}
 #modal{overscroll-behavior:contain;touch-action:none}.box{touch-action:pan-y;overscroll-behavior:contain}
-.inst{font-size:1.05rem;padding:6px 12px;margin:0 0 8px}.io{font-size:1.2rem;padding-left:22px;line-height:1.3}.io li{margin:8px 0}
+.langs .inst{background:var(--y)}.io{font-size:1.2rem;padding-left:22px;line-height:1.3}.io li{margin:8px 0}
 </style></head><body><div id="app"></div><div id="modal"></div>
 <script>
 const T={
@@ -88,10 +89,10 @@ m.onclick=e=>{const k=e.target.closest('[data-k]');if(k){KP(k.dataset.k);return}
 const b=e.target.closest('[data-i],[data-x]');if(!b)return;m.className='';document.documentElement.classList.remove('lock');r(b.dataset.x!==undefined?b.dataset.x:btns[b.dataset.i].v)};
 m.oninput=e=>{if(e.target.dataset.r!==undefined){let v=e.target.value.replace(/[^\d-]/g,'');v=(S.game.neg&&v[0]=='-'?'-':'')+v.replace(/-/g,'').slice(0,3);e.target.value=v}}})}
 const ask=m=>modal(`<p>${esc(m)}</p>`,[{l:t('cancel'),v:0},{l:t('ok'),v:1,c:'p'}]);
-const head=()=>`<header><div class=logo>FLIP<i>7</i></div><div class=langs>${Object.keys(T).map(l=>`<button class="${l==S.lang?'on':''}" data-a=lang data-v=${l}>${l.toUpperCase()}</button>`).join('')}</div></header>
+const head=i=>`<header><div class=logo>FLIP<i>7</i></div><div class=langs>${i&&canInst()?`<button class=inst data-a=inst>📲 ${t('inst')}</button>`:''}${Object.keys(T).map(l=>`<button class="${l==S.lang?'on':''}" data-a=lang data-v=${l}>${l.toUpperCase()}</button>`).join('')}</div></header>
 <div class=fan>${['#4aa3a2','#7fa3dd','#ffdd44','#ee4466','#fff','#e8873a'].map((c,i)=>`<span style="background:${c};transform:rotate(${(i-2.5)*14}deg)"></span>`).join('')}</div>`;
 function setup(){const free=S.names.filter(n=>!S.sel.includes(n));
-return (canInst()?`<div><button class="btn p inst" data-a=inst>📲 ${t('inst')}</button></div>`:'')+head()+`<h2 class=rib>${t('ingame')}</h2><div class=card><div class=chips>${S.sel.map(n=>`<span class="chip on" data-a=unsel data-v="${esc(n)}">${esc(n)} ✕</span>`).join('')||`<span class=mute>${t('pick')}</span>`}</div></div>
+return head(1)+`<h2 class=rib>${t('ingame')}</h2><div class=card><div class=chips>${S.sel.map(n=>`<span class="chip on" data-a=unsel data-v="${esc(n)}">${esc(n)} ✕</span>`).join('')||`<span class=mute>${t('pick')}</span>`}</div></div>
 <h2 class=rib>${t('saved')}</h2><div class=card><div class=chips>${free.map(n=>`<span class=cg><span class=chip data-a=sel data-v="${esc(n)}">${esc(n)}</span><button class=x data-a=del data-v="${esc(n)}">✕</button></span>`).join('')||`<span class=mute>${t('none')}</span>`}</div>
 <div class=row style="margin-top:12px"><input id=nn maxlength=18 placeholder="${t('ph')}"><button class="btn p" data-a=add>+</button></div></div>
 <div class=card><div class=row style="margin-bottom:10px"><b style="flex:1">${t('target')}</b><input id=tg inputmode=numeric style="width:100px;text-align:center" value=${S.target}></div>
