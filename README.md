@@ -6,8 +6,14 @@ Application web pour compter les scores du jeu de cartes **Flip 7**, en version 
 
 ## Utilisation
 
-Ouvrez `index.html` dans un navigateur récent (PC ou smartphone). Il n'y a rien à installer.
-Ou directement depuis ce dépôt : [https://xiigle.github.io/flip7_scoring/](https://xiigle.github.io/flip7_scoring/)
+### En local
+Télécharger le zip du dépôt, dézipper et ouvrir simplement `index.html` dans un navigateur (double-clic).
+
+### Hébergée sur GitHub Pages
+[https://xiigle.github.io/flip7_scoring/](https://xiigle.github.io/flip7_scoring/)
+
+### Sur un smartphone comme application
+Lancer l'application depuis le dépôt (lien ci-dessus) et installer via le menu du navigateur comme application (ou utiliser le lien sur la page de démarrage d'une nouvelle partie de l'application)
 
 ## Fonctionnalités
 
